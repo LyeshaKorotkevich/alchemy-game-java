@@ -1,7 +1,20 @@
 volumes:
+  postgres-data:
   neo4j_data:
 
 services:
+  postgresDB:
+    image: postgres:15
+    container_name: ${PG_CONTAINER_NAME}
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5438:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
   neo4j:
     container_name: neo4j
     image: neo4j:latest
@@ -12,4 +25,4 @@ services:
       - NEO4J_AUTH=neo4j/${NEO4J_PASSWORD}
     volumes:
       - neo4j_data:/data
-    restart: always
+    restart: unless-stopped

@@ -1,7 +1,10 @@
-package eu.innowise.alchemy.model;
+package eu.innowise.alchemy.model.entity;
 
 import eu.innowise.alchemy.model.enums.TransactionType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -16,6 +19,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@Entity
 @Table(name = "transactions")
 public class Transaction {
 
@@ -28,9 +32,11 @@ public class Transaction {
     private User user;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TransactionType type;
 
-    //private int ingredientId;
+    @Column(name = "ingredient_id", nullable = false)
+    private String ingredientId;
 
     @Column(nullable = false)
     private int quantity;

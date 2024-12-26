@@ -1,10 +1,14 @@
-package eu.innowise.alchemy.model;
+package eu.innowise.alchemy.model.entity;
 
 import eu.innowise.alchemy.model.enums.UserRole;
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
@@ -15,7 +19,8 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@Table(name = "users")
+@Entity
+@Table(name = "users", indexes = @Index(name = "coins_index", columnList = "coins"))
 public class User {
 
     @Id
@@ -32,6 +37,7 @@ public class User {
     private int coins;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserRole role;
 
     @OneToMany(mappedBy = "user")
