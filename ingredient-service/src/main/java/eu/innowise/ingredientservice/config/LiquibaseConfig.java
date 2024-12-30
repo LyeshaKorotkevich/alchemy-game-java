@@ -30,26 +30,26 @@ public class LiquibaseConfig {
     @Value("${spring.liquibase.change-log}")
     private String changelogFile;
 
-    @Bean
-    public Liquibase neo4jLiquibase() throws Exception {
-
-        try (Driver driver = GraphDatabase.driver(neo4jUri, AuthTokens.basic(neo4jUsername, neo4jPassword))) {}
-
-        Database database = DatabaseFactory.getInstance().openDatabase(
-                neo4jUri,
-                neo4jUsername,
-                neo4jPassword,
-                null,
-                new ClassLoaderResourceAccessor()
-        );
-
-        try (Liquibase liquibase = new Liquibase(
-                changelogFile,
-                new ClassLoaderResourceAccessor(),
-                database)) {
-            liquibase.update("");
-        }
-
-        return null;
-    }
+//    @Bean
+//    public Liquibase neo4jLiquibase() throws Exception {
+//
+//        try (Driver driver = GraphDatabase.driver(neo4jUri, AuthTokens.basic(neo4jUsername, neo4jPassword))) {}
+//
+//        Database database = DatabaseFactory.getInstance().openDatabase(
+//                neo4jUri,
+//                neo4jUsername,
+//                neo4jPassword,
+//                null,
+//                new ClassLoaderResourceAccessor()
+//        );
+//
+//        try (Liquibase liquibase = new Liquibase(
+//                changelogFile,
+//                new ClassLoaderResourceAccessor(),
+//                database)) {
+//            liquibase.update("");
+//        }
+//
+//        return null;
+//    }
 }

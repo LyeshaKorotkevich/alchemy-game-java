@@ -1,7 +1,9 @@
 package eu.innowise.ingredientservice.model.node;
 
 import eu.innowise.ingredientservice.model.relationship.UsedInRelationship;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
@@ -15,6 +17,8 @@ import java.util.List;
 @Node
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Ingredient {
 
     @Id
@@ -23,9 +27,9 @@ public class Ingredient {
 
     private String name;
 
-    private double chanceOfLoss;
+    private Short chanceOfLoss;
 
-    private int price;
+    private Integer price;
 
     @Relationship(type = "USED_IN", direction = Relationship.Direction.INCOMING)
     private List<UsedInRelationship> ingredients = new ArrayList<>();

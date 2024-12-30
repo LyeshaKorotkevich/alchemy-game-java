@@ -39,7 +39,7 @@ public class Transaction {
     private String ingredientId;
 
     @Column(nullable = false)
-    private int quantity;
+    private Integer quantity;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

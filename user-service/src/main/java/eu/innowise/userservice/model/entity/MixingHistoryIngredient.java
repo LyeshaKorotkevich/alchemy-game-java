@@ -28,8 +28,8 @@ public class MixingHistoryIngredient {
     @Column(name = "ingredient_id")
     private String ingredientId;
 
-    @Column(name = "is_lost")
-    private boolean isLost;
+    @Column(name = "is_lost", nullable = false)
+    private Boolean isLost;
 
     @ManyToOne
     @JoinColumn(name = "mixing_history_id", nullable = false)

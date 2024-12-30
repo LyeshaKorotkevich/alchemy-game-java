@@ -6,3 +6,17 @@ databaseChangeLog:
         - sqlFile:
             path: 2024-12-25--01-initial-schema.sql
             relativeToChangelogFile: true
+  - changeSet:
+      id: 2
+      author: leha
+      changes:
+        - sqlFile:
+            path: 2024-12-30--02-coins-check-constraint.sql
+            relativeToChangelogFile: true
+  - changeSet:
+      id: 3
+      author: leha
+      changes:
+        - sqlFile:
+            path: 2024-12-30--03-add-email-column.sql
+            relativeToChangelogFile: true
