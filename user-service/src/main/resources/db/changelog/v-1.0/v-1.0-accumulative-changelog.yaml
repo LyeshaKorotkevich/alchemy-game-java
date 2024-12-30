@@ -1,0 +1,8 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: leha
+      changes:
+        - sqlFile:
+            path: 2024-12-25--01-initial-schema.sql
+            relativeToChangelogFile: true
