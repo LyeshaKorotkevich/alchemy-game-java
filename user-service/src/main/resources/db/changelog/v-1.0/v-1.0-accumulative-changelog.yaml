@@ -20,3 +20,10 @@ databaseChangeLog:
         - sqlFile:
             path: 2024-12-30--03-add-email-column.sql
             relativeToChangelogFile: true
+  - changeSet:
+      id: 4
+      author: leha
+      changes:
+        - sqlFile:
+            path: 2024-12-31--04-add-audit-fields-user.sql
+            relativeToChangelogFile: true
