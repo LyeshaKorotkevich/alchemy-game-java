@@ -38,7 +38,7 @@ public class Transaction {
     @Column(name = "ingredient_id", nullable = false)
     private String ingredientId;
 
-    @Column(nullable = false)
+    @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
     @Column(name = "created_at", nullable = false)

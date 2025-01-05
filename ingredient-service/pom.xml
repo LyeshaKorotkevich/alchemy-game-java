@@ -92,21 +92,18 @@
                     </excludes>
                 </configuration>
             </plugin>
-            <!--			<plugin>-->
-            <!--				<groupId>eu.michael-simons.neo4j</groupId>-->
-            <!--				<artifactId>neo4j-migrations-maven-plugin</artifactId>-->
-            <!--				<version>2.0.3</version>-->
-            <!--				<executions>-->
-            <!--					<execution>-->
-            <!--						<configuration>-->
-            <!--							<user>neo4j</user>-->
-            <!--							<password>root1234</password>-->
-            <!--							<address>bolt://localhost:7687</address>-->
-            <!--							<verbose>true</verbose>-->
-            <!--						</configuration>-->
-            <!--					</execution>-->
-            <!--				</executions>-->
-            <!--			</plugin>-->
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>4.29.2</version>
+                <configuration>
+                    <url>jdbc:neo4j:bolt://localhost:7687</url>
+                    <username>neo4j</username>
+                    <password>root1234</password>
+                    <changeLogFile>db/changelog/db.changelog-master.yaml</changeLogFile>
+                    <driver>liquibase.ext.neo4j.database.jdbc.Neo4jDriver</driver>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
