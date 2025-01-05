@@ -1,0 +1,55 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: leha
+      changes:
+        - sql:
+            dbms: neo4j
+            splitStatements: false
+            stripComments: false
+            sql: |
+              CREATE (i1:Ingredient {id: '1234', name: 'Herb', chanceOfLoss: 0.1, price: 1});
+
+  - changeSet:
+      id: 2
+      author: leha
+      changes:
+        - sql:
+            dbms: neo4j
+            splitStatements: false
+            stripComments: false
+            sql: |
+              CREATE (i2:Ingredient {id: '9101', name: 'Water', chanceOfLoss: 0.05, price: 1});
+
+  - changeSet:
+      id: 3
+      author: leha
+      changes:
+        - sql:
+            dbms: neo4j
+            splitStatements: false
+            stripComments: false
+            sql: |
+              CREATE (i3:Ingredient {id: '5678', name: 'Potion', chanceOfLoss: 0.2, price: 2});
+
+  - changeSet:
+      id: 4
+      author: leha
+      changes:
+        - sql:
+            dbms: neo4j
+            splitStatements: false
+            stripComments: false
+            sql: |
+              CREATE (i1)-[:USED_IN {quantity: 1}]->(i3);
+
+  - changeSet:
+      id: 5
+      author: leha
+      changes:
+        - sql:
+            dbms: neo4j
+            splitStatements: false
+            stripComments: false
+            sql: |
+              CREATE (i2)-[:USED_IN {quantity: 1}]->(i3);
