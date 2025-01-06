@@ -17,14 +17,19 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/ingredient")
+@RequestMapping("/api/v1/ingredients")
 public class IngredientController {
 
     private final IngredientService ingredientService;
 
-    @GetMapping("/{id}")
-    public IngredientResponse getIngredientById(@PathVariable("id") String id) {
-        return ingredientService.getIngredientById(id);
+//    @GetMapping("/{id}")
+//    public IngredientResponse getIngredientById(@PathVariable("id") String id) {
+//        return ingredientService.getIngredientById(id);
+//    }
+
+    @GetMapping("/{name}")
+    public IngredientResponse getIngredientByName(@PathVariable("name") String name) {
+        return ingredientService.getIngredientByName(name);
     }
 
     @PostMapping

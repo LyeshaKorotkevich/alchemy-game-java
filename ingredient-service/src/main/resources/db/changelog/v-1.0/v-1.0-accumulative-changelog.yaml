@@ -8,7 +8,7 @@ databaseChangeLog:
             splitStatements: false
             stripComments: false
             sql: |
-              CREATE (i1:Ingredient {id: '1234', name: 'Herb', chanceOfLoss: 0.1, price: 1});
+              CREATE (:Ingredient {id: '1234', name: 'Herb', chanceOfLoss: 7, price: 1});
 
   - changeSet:
       id: 2
@@ -19,7 +19,7 @@ databaseChangeLog:
             splitStatements: false
             stripComments: false
             sql: |
-              CREATE (i2:Ingredient {id: '9101', name: 'Water', chanceOfLoss: 0.05, price: 1});
+              CREATE (:Ingredient {id: '9101', name: 'Water', chanceOfLoss: 5, price: 1});
 
   - changeSet:
       id: 3
@@ -30,7 +30,7 @@ databaseChangeLog:
             splitStatements: false
             stripComments: false
             sql: |
-              CREATE (i3:Ingredient {id: '5678', name: 'Potion', chanceOfLoss: 0.2, price: 2});
+              CREATE (:Ingredient {id: '5678', name: 'Potion', chanceOfLoss: 10, price: 2});
 
   - changeSet:
       id: 4
@@ -41,7 +41,8 @@ databaseChangeLog:
             splitStatements: false
             stripComments: false
             sql: |
-              CREATE (i1)-[:USED_IN {quantity: 1}]->(i3);
+              MATCH (herb:Ingredient {id: '1234'}), (potion:Ingredient {id: '5678'})
+              CREATE (herb)-[:USED_IN {quantity: 1}]->(potion);
 
   - changeSet:
       id: 5
@@ -52,4 +53,5 @@ databaseChangeLog:
             splitStatements: false
             stripComments: false
             sql: |
-              CREATE (i2)-[:USED_IN {quantity: 1}]->(i3);
+              MATCH (water:Ingredient {id: '9101'}), (potion:Ingredient {id: '5678'})
+              CREATE (water)-[:USED_IN {quantity: 1}]->(potion);

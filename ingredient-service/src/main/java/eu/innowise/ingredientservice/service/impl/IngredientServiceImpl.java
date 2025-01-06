@@ -10,6 +10,7 @@ import eu.innowise.ingredientservice.model.relationship.UsedInRelationship;
 import eu.innowise.ingredientservice.repository.IngredientRepository;
 import eu.innowise.ingredientservice.service.IngredientService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class IngredientServiceImpl implements IngredientService {
@@ -36,6 +38,14 @@ public class IngredientServiceImpl implements IngredientService {
     public IngredientResponse getIngredientById(String id) {
         Ingredient ingredient = ingredientRepository.findById(id)
                 .orElseThrow(() -> NotFoundException.of(Ingredient.class, id));
+        return ingredientMapper.toResponse(ingredient);
+    }
+
+    @Override
+    public IngredientResponse getIngredientByName(String name) {
+        Ingredient ingredient = ingredientRepository.findByNameIgnoreCase(name)
+                .orElseThrow(() -> NotFoundException.of(Ingredient.class, name));
+        log.info(ingredient.toString());
         return ingredientMapper.toResponse(ingredient);
     }
 

@@ -2,7 +2,7 @@ package eu.innowise.ingredientservice.dto.response;
 
 public record UsedIngredientResponse(
 
-        String ingredientId,
+        String id,
         String name,
         int quantity
 ) {

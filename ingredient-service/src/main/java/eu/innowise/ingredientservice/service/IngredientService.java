@@ -13,5 +13,7 @@ public interface IngredientService {
 
     IngredientResponse getIngredientById(String id);
 
+    IngredientResponse getIngredientByName(String name);
+
     Optional<IngredientResponse> mixIngredients(List<UsedIngredientRequest> usedIngredientRequests);
 }

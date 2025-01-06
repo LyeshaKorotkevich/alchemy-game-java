@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface IngredientRepository extends Neo4jRepository<Ingredient, String> {
 
@@ -16,4 +17,11 @@ public interface IngredientRepository extends Neo4jRepository<Ingredient, String
         RETURN i
         """)
     List<Ingredient> findByIngredients(@Param("requestedMap") Map<String, Integer> ingredientsMap);
+
+//    @Query("""
+//        MATCH (ingredient:Ingredient)
+//        WHERE toLower(ingredient.name) = toLower($name)
+//        RETURN ingredient
+//       """)
+    Optional<Ingredient> findByNameIgnoreCase(String name);
 }
