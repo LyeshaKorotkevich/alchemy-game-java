@@ -5,6 +5,7 @@ import eu.innowise.ingredientservice.dto.request.UsedIngredientRequest;
 import eu.innowise.ingredientservice.dto.response.IngredientResponse;
 import eu.innowise.ingredientservice.exception.NotFoundException;
 import eu.innowise.ingredientservice.mapper.IngredientMapper;
+import eu.innowise.ingredientservice.mapper.UsedIngredientMapper;
 import eu.innowise.ingredientservice.model.node.Ingredient;
 import eu.innowise.ingredientservice.model.relationship.UsedInRelationship;
 import eu.innowise.ingredientservice.repository.IngredientRepository;
@@ -14,10 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -26,6 +25,7 @@ public class IngredientServiceImpl implements IngredientService {
 
     private final IngredientRepository ingredientRepository;
     private final IngredientMapper ingredientMapper;
+    private final UsedIngredientMapper usedIngredientMapper;
 
     @Override
     public IngredientResponse createIngredient(IngredientRequest ingredientRequest) {
@@ -51,26 +51,21 @@ public class IngredientServiceImpl implements IngredientService {
 
     @Override
     public Optional<IngredientResponse> mixIngredients(List<UsedIngredientRequest> usedIngredientRequests) {
+        List<UsedInRelationship> relationships = usedIngredientRequests.stream()
+                .map(request -> {
+                    //Ingredient ingredient = ingredientRepository.findById(request.id()).orElseThrow(() ->NotFoundException.of(Ingredient.class, "id"));
+                    UsedInRelationship relationship = usedIngredientMapper.toUsedInRelationship(request);
+                    //relationship.setIngredient(ingredient);
+                    return relationship;
+                })
+                .toList();
 
-        List<Ingredient> allIngredients = ingredientRepository.findAll();
+        List<Ingredient> matchingIngredients = ingredientRepository.findByIngredients(relationships);
+        log.info(String.valueOf(matchingIngredients.size()));
 
-        // TODO change with cypher query
-        Map<String, Integer> requestedMap = usedIngredientRequests.stream()
-                .collect(
-                        Collectors.toMap(UsedIngredientRequest::id, UsedIngredientRequest::quantity)
-                );
-
-        for (Ingredient ingredient : allIngredients) {
-
-            Map<String, Integer> ingredientMap = ingredient.getIngredients().stream()
-                    .collect(
-                            Collectors.toMap(ingr -> ingr.getIngredient().getId(), UsedInRelationship::getQuantity)
-                    );
-
-            if (ingredientMap.equals(requestedMap)) {
-                IngredientResponse ingredientResponse = ingredientMapper.toResponse(ingredient);
-                return Optional.of(ingredientResponse);
-            }
+        if (!matchingIngredients.isEmpty()) {
+            IngredientResponse ingredientResponse = ingredientMapper.toResponse(matchingIngredients.get(0));
+            return Optional.of(ingredientResponse);
         }
 
         handleChanceOfLoss(usedIngredientRequests);
@@ -88,7 +83,7 @@ public class IngredientServiceImpl implements IngredientService {
 
         usedIngredients.forEach(ingredient -> {
             if (random.nextInt(100) < ingredient.getChanceOfLoss()) {
-                ingredientRepository.deleteById(ingredient.getId());
+                // TODO delete ingredient from user's inventory
             }
         });
     }

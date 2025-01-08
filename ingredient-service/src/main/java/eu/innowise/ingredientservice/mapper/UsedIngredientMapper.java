@@ -1,5 +1,6 @@
 package eu.innowise.ingredientservice.mapper;
 
+import eu.innowise.ingredientservice.dto.request.UsedIngredientRequest;
 import eu.innowise.ingredientservice.dto.response.UsedIngredientResponse;
 import eu.innowise.ingredientservice.model.relationship.UsedInRelationship;
 import org.mapstruct.Mapper;
@@ -11,4 +12,6 @@ public interface UsedIngredientMapper {
 
     @Mapping(target = "name", source = "ingredient.name")
     UsedIngredientResponse toResponse(UsedInRelationship usedInRelationship);
+
+    UsedInRelationship toUsedInRelationship(UsedIngredientRequest usedIngredientRequest);
 }

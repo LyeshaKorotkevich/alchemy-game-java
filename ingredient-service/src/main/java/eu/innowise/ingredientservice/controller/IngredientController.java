@@ -5,6 +5,8 @@ import eu.innowise.ingredientservice.dto.request.UsedIngredientRequest;
 import eu.innowise.ingredientservice.dto.response.IngredientResponse;
 import eu.innowise.ingredientservice.service.IngredientService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,11 +24,6 @@ public class IngredientController {
 
     private final IngredientService ingredientService;
 
-//    @GetMapping("/{id}")
-//    public IngredientResponse getIngredientById(@PathVariable("id") String id) {
-//        return ingredientService.getIngredientById(id);
-//    }
-
     @GetMapping("/{name}")
     public IngredientResponse getIngredientByName(@PathVariable("name") String name) {
         return ingredientService.getIngredientByName(name);
@@ -38,11 +35,12 @@ public class IngredientController {
     }
 
     @PostMapping("/mix")
-    public IngredientResponse mixIngredient(@RequestBody List<UsedIngredientRequest> usedIngredientRequests) {
+    public ResponseEntity<IngredientResponse> mixIngredient(@RequestBody List<UsedIngredientRequest> usedIngredientRequests) {
         Optional<IngredientResponse> ingredientResponse = ingredientService.mixIngredients(usedIngredientRequests);
         if (ingredientResponse.isPresent()) {
-            return ingredientResponse.get();
+            return ResponseEntity.ok(ingredientResponse.get());
         }
-        return null; // TODO
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(null);
     }
 }

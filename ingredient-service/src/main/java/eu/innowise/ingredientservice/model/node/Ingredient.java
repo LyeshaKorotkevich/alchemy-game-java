@@ -2,6 +2,7 @@ package eu.innowise.ingredientservice.model.node;
 
 import eu.innowise.ingredientservice.model.relationship.UsedInRelationship;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +19,7 @@ import java.util.List;
 @Node
 @Getter
 @Setter
+@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
