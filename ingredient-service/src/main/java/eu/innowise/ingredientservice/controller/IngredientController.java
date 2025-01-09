@@ -1,12 +1,10 @@
 package eu.innowise.ingredientservice.controller;
 
-import eu.innowise.ingredientservice.dto.request.IngredientRequest;
-import eu.innowise.ingredientservice.dto.request.UsedIngredientRequest;
+import eu.innowise.ingredientservice.dto.request.IngredientCreateRequest;
+import eu.innowise.ingredientservice.dto.request.UsedIngredientCreateRequest;
 import eu.innowise.ingredientservice.dto.response.IngredientResponse;
 import eu.innowise.ingredientservice.service.IngredientService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,17 +27,12 @@ public class IngredientController {
     }
 
     @PostMapping
-    public IngredientResponse createIngredient(@RequestBody IngredientRequest ingredientRequest) {
-        return ingredientService.createIngredient(ingredientRequest);
+    public IngredientResponse createIngredient(@RequestBody IngredientCreateRequest ingredientCreateRequest) {
+        return ingredientService.createIngredient(ingredientCreateRequest);
     }
 
     @PostMapping("/mix")
-    public ResponseEntity<IngredientResponse> mixIngredient(@RequestBody List<UsedIngredientRequest> usedIngredientRequests) {
-        Optional<IngredientResponse> ingredientResponse = ingredientService.mixIngredients(usedIngredientRequests);
-        if (ingredientResponse.isPresent()) {
-            return ResponseEntity.ok(ingredientResponse.get());
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(null);
+    public IngredientResponse mixIngredient(@RequestBody List<UsedIngredientCreateRequest> usedIngredientCreateRequests) {
+        return ingredientService.mixIngredients(usedIngredientCreateRequests);
     }
 }

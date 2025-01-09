@@ -1,7 +1,7 @@
 package eu.innowise.ingredientservice.testutil.builders;
 
-import eu.innowise.ingredientservice.dto.request.IngredientRequest;
-import eu.innowise.ingredientservice.dto.request.UsedIngredientRequest;
+import eu.innowise.ingredientservice.dto.request.IngredientCreateRequest;
+import eu.innowise.ingredientservice.dto.request.UsedIngredientCreateRequest;
 import eu.innowise.ingredientservice.dto.response.IngredientResponse;
 import eu.innowise.ingredientservice.dto.response.UsedIngredientResponse;
 import eu.innowise.ingredientservice.model.node.Ingredient;
@@ -39,9 +39,9 @@ public class IngredientTestBuilder {
                 .build();
     }
 
-    public IngredientRequest getRequest() {
-        return new IngredientRequest(name, chanceOfLoss, price, ingredients.stream()
-                .map(usedInRelationship -> new UsedIngredientRequest(usedInRelationship.getId(), usedInRelationship.getQuantity()))
+    public IngredientCreateRequest getRequest() {
+        return new IngredientCreateRequest(name, chanceOfLoss, price, ingredients.stream()
+                .map(usedInRelationship -> new UsedIngredientCreateRequest(usedInRelationship.getId(), usedInRelationship.getQuantity()))
                 .toList());
     }
 

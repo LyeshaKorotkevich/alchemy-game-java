@@ -1,9 +1,8 @@
 package eu.innowise.ingredientservice.service.impl;
 
-import eu.innowise.ingredientservice.dto.request.IngredientRequest;
-import eu.innowise.ingredientservice.dto.request.UsedIngredientRequest;
+import eu.innowise.ingredientservice.dto.request.UsedIngredientCreateRequest;
 import eu.innowise.ingredientservice.dto.response.IngredientResponse;
-import eu.innowise.ingredientservice.exception.NotFoundException;
+import eu.innowise.ingredientservice.exception.IngredientNotFoundException;
 import eu.innowise.ingredientservice.mapper.IngredientMapper;
 import eu.innowise.ingredientservice.mapper.UsedIngredientMapper;
 import eu.innowise.ingredientservice.model.node.Ingredient;
@@ -45,14 +44,14 @@ class IngredientServiceImplTest {
         @Test
         void shouldReturnIngredientWhenMatchingIngredientsFound() {
             // given
-            UsedIngredientRequest usedIngredientRequest1 = new UsedIngredientRequest("1", 1);
+            UsedIngredientCreateRequest usedIngredientCreateRequest1 = new UsedIngredientCreateRequest("1", 1);
             Ingredient ingredient1 = IngredientTestBuilder.builder()
                     .withId("1")
                     .withName("water")
                     .build()
                     .getIngredient();
 
-            UsedIngredientRequest usedIngredientRequest2 = new UsedIngredientRequest("2", 1);
+            UsedIngredientCreateRequest usedIngredientCreateRequest2 = new UsedIngredientCreateRequest("2", 1);
             Ingredient ingredient2 = IngredientTestBuilder.builder()
                     .withId("2")
                     .withName("herb")
@@ -72,15 +71,15 @@ class IngredientServiceImplTest {
                     .build()
                     .getResponse();
 
-            List<UsedIngredientRequest> usedIngredientRequests = List.of(usedIngredientRequest1, usedIngredientRequest2);
+            List<UsedIngredientCreateRequest> usedIngredientCreateRequests = List.of(usedIngredientCreateRequest1, usedIngredientCreateRequest2);
 
             doReturn(relationship1)
                     .when(usedIngredientMapper)
-                    .toUsedInRelationship(usedIngredientRequest1);
+                    .toUsedInRelationship(usedIngredientCreateRequest1);
 
             doReturn(relationship2)
                     .when(usedIngredientMapper)
-                    .toUsedInRelationship(usedIngredientRequest2);
+                    .toUsedInRelationship(usedIngredientCreateRequest2);
 
             doReturn(List.of(ingredient3))
                     .when(ingredientRepository)
@@ -91,11 +90,10 @@ class IngredientServiceImplTest {
                     .toResponse(ingredient3);
 
             // when
-            Optional<IngredientResponse> actual = ingredientService.mixIngredients(usedIngredientRequests);
+            IngredientResponse actual = ingredientService.mixIngredients(usedIngredientCreateRequests);
 
             // then
-            assertTrue(actual.isPresent());
-            assertEquals(expected, actual.get());
+            assertEquals(expected, actual);
         }
     }
 
@@ -126,7 +124,7 @@ class IngredientServiceImplTest {
         }
 
         @Test
-        void shouldThrowException_whenIngredientByIdNotFound() {
+        void shouldThrowExceptionWhenIngredientByIdNotFound() {
             // given
             Ingredient ingredient = IngredientTestBuilder.builder().build().getIngredient();
 
@@ -136,7 +134,7 @@ class IngredientServiceImplTest {
 
             // when & then
             assertThrows(
-                    NotFoundException.class,
+                    IngredientNotFoundException.class,
                     () -> ingredientService.getIngredientByName(ingredient.getId())
             );
         }
@@ -168,7 +166,7 @@ class IngredientServiceImplTest {
         }
 
         @Test
-        void shouldThrowException_whenIngredientByNameNotFound() {
+        void shouldThrowExceptionWhenIngredientByNameNotFound() {
             // given
             Ingredient ingredient = IngredientTestBuilder.builder().build().getIngredient();
 
@@ -178,7 +176,7 @@ class IngredientServiceImplTest {
 
             // when & then
             assertThrows(
-                    NotFoundException.class,
+                    IngredientNotFoundException.class,
                     () -> ingredientService.getIngredientByName(ingredient.getName())
             );
         }
@@ -190,14 +188,14 @@ class IngredientServiceImplTest {
         @Test
         void shouldReturnIngredientWhenMatchingIngredientsFound() {
             // given
-            UsedIngredientRequest usedIngredientRequest1 = new UsedIngredientRequest("1", 1);
+            UsedIngredientCreateRequest usedIngredientCreateRequest1 = new UsedIngredientCreateRequest("1", 1);
             Ingredient ingredient1 = IngredientTestBuilder.builder()
                     .withId("1")
                     .withName("water")
                     .build()
                     .getIngredient();
 
-            UsedIngredientRequest usedIngredientRequest2 = new UsedIngredientRequest("2", 1);
+            UsedIngredientCreateRequest usedIngredientCreateRequest2 = new UsedIngredientCreateRequest("2", 1);
             Ingredient ingredient2 = IngredientTestBuilder.builder()
                     .withId("2")
                     .withName("herb")
@@ -220,7 +218,7 @@ class IngredientServiceImplTest {
                     .build()
                     .getResponse();
 
-            List<UsedIngredientRequest> usedIngredientRequests = List.of(usedIngredientRequest1, usedIngredientRequest2);
+            List<UsedIngredientCreateRequest> usedIngredientCreateRequests = List.of(usedIngredientCreateRequest1, usedIngredientCreateRequest2);
 
             doReturn(List.of(ingredient3))
                     .when(ingredientRepository)
@@ -231,34 +229,30 @@ class IngredientServiceImplTest {
                     .toResponse(ingredient3);
 
             // when
-            Optional<IngredientResponse> actual = ingredientService.mixIngredients(usedIngredientRequests);
+            IngredientResponse actual = ingredientService.mixIngredients(usedIngredientCreateRequests);
 
             // then
-            assertTrue(actual.isPresent());
-            assertEquals(expected, actual.get());
+            assertEquals(expected, actual);
         }
 
         @Test
-        void shouldReturnEmptyWhenNoMatchingIngredientsFound() {
+        void shouldThrowExceptionWhenNoMatchingIngredientsFound() {
             // given
-            UsedIngredientRequest usedIngredientRequest = new UsedIngredientRequest("1", 1);
-            List<UsedIngredientRequest> usedIngredientRequests = List.of(usedIngredientRequest);
+            UsedIngredientCreateRequest usedIngredientCreateRequest = new UsedIngredientCreateRequest("1", 1);
+            List<UsedIngredientCreateRequest> usedIngredientCreateRequests = List.of(usedIngredientCreateRequest);
 
             UsedInRelationship relationship = new UsedInRelationship("1", 1, null);
 
             doReturn(relationship)
                     .when(usedIngredientMapper)
-                    .toUsedInRelationship(usedIngredientRequest);
+                    .toUsedInRelationship(usedIngredientCreateRequest);
 
             doReturn(List.of())
                     .when(ingredientRepository)
                     .findByIngredients(List.of(relationship));
 
-            // when
-            Optional<IngredientResponse> actual = ingredientService.mixIngredients(usedIngredientRequests);
-
-            // then
-            assertFalse(actual.isPresent());
+            // when & then
+            assertThrows(IngredientNotFoundException.class, () -> ingredientService.mixIngredients(usedIngredientCreateRequests));
         }
     }
 

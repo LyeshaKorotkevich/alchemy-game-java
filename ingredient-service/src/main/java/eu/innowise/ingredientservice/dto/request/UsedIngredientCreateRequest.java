@@ -3,7 +3,7 @@ package eu.innowise.ingredientservice.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 
-public record UsedIngredientRequest (
+public record UsedIngredientCreateRequest(
 
         @NotBlank(message = "Ingredient ID can't be null")
         String id,
