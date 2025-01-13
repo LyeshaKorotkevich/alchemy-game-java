@@ -62,7 +62,7 @@ databaseChangeLog:
       changes:
         - sql:
             dbms: neo4j
-            splitStatements: false
+            splitStatements: true
             stripComments: false
             sql: |
               CREATE (:Ingredient {id: '1001', name: 'Earth', chanceOfLoss: 2, price: 1});
@@ -75,7 +75,7 @@ databaseChangeLog:
       changes:
         - sql:
             dbms: neo4j
-            splitStatements: false
+            splitStatements: true
             stripComments: false
             sql: |
               CREATE (:Ingredient {id: '2001', name: 'Steam', chanceOfLoss: 4, price: 3});
@@ -89,7 +89,7 @@ databaseChangeLog:
       changes:
         - sql:
             dbms: neo4j
-            splitStatements: false
+            splitStatements: true
             stripComments: false
             sql: |
               MATCH (earth:Ingredient {id: '1001'}), (water:Ingredient {id: '9101'}), (steam:Ingredient {id: '2001'})
@@ -102,7 +102,7 @@ databaseChangeLog:
       changes:
         - sql:
             dbms: neo4j
-            splitStatements: false
+            splitStatements: true
             stripComments: false
             sql: |
               MATCH (earth:Ingredient {id: '1001'}), (water:Ingredient {id: '9101'}), (mud:Ingredient {id: '2002'})
@@ -115,7 +115,7 @@ databaseChangeLog:
       changes:
         - sql:
             dbms: neo4j
-            splitStatements: false
+            splitStatements: true
             stripComments: false
             sql: |
               MATCH (fire:Ingredient {id: '1002'}), (earth:Ingredient {id: '1001'}), (lava:Ingredient {id: '2003'})
@@ -128,7 +128,7 @@ databaseChangeLog:
       changes:
         - sql:
             dbms: neo4j
-            splitStatements: false
+            splitStatements: true
             stripComments: false
             sql: |
               MATCH (air:Ingredient {id: '1003'}), (earth:Ingredient {id: '1001'}), (breeze:Ingredient {id: '2004'})
