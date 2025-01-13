@@ -8,7 +8,7 @@ databaseChangeLog:
             splitStatements: false
             stripComments: false
             sql: |
-              CREATE (i1:Ingredient {id: '1234', name: 'Herb', chanceOfLoss: 0.1, price: 1});
+              CREATE (:Ingredient {id: '1234', name: 'Herb', chanceOfLoss: 7, price: 1});
 
   - changeSet:
       id: 2
@@ -19,7 +19,7 @@ databaseChangeLog:
             splitStatements: false
             stripComments: false
             sql: |
-              CREATE (i2:Ingredient {id: '9101', name: 'Water', chanceOfLoss: 0.05, price: 1});
+              CREATE (:Ingredient {id: '9101', name: 'Water', chanceOfLoss: 5, price: 1});
 
   - changeSet:
       id: 3
@@ -30,7 +30,7 @@ databaseChangeLog:
             splitStatements: false
             stripComments: false
             sql: |
-              CREATE (i3:Ingredient {id: '5678', name: 'Potion', chanceOfLoss: 0.2, price: 2});
+              CREATE (:Ingredient {id: '5678', name: 'Potion', chanceOfLoss: 10, price: 2});
 
   - changeSet:
       id: 4
@@ -41,7 +41,8 @@ databaseChangeLog:
             splitStatements: false
             stripComments: false
             sql: |
-              CREATE (i1)-[:USED_IN {quantity: 1}]->(i3);
+              MATCH (herb:Ingredient {id: '1234'}), (potion:Ingredient {id: '5678'})
+              CREATE (herb)-[:USED_IN {quantity: 1}]->(potion);
 
   - changeSet:
       id: 5
@@ -52,4 +53,84 @@ databaseChangeLog:
             splitStatements: false
             stripComments: false
             sql: |
-              CREATE (i2)-[:USED_IN {quantity: 1}]->(i3);
+              MATCH (water:Ingredient {id: '9101'}), (potion:Ingredient {id: '5678'})
+              CREATE (water)-[:USED_IN {quantity: 1}]->(potion);
+
+  - changeSet:
+      id: 6
+      author: leha
+      changes:
+        - sql:
+            dbms: neo4j
+            splitStatements: true
+            stripComments: false
+            sql: |
+              CREATE (:Ingredient {id: '1001', name: 'Earth', chanceOfLoss: 2, price: 1});
+              CREATE (:Ingredient {id: '1002', name: 'Fire', chanceOfLoss: 3, price: 2});
+              CREATE (:Ingredient {id: '1003', name: 'Air', chanceOfLoss: 1, price: 1});
+
+  - changeSet:
+      id: 7
+      author: leha
+      changes:
+        - sql:
+            dbms: neo4j
+            splitStatements: true
+            stripComments: false
+            sql: |
+              CREATE (:Ingredient {id: '2001', name: 'Steam', chanceOfLoss: 4, price: 3});
+              CREATE (:Ingredient {id: '2002', name: 'Mud', chanceOfLoss: 6, price: 4});
+              CREATE (:Ingredient {id: '2003', name: 'Lava', chanceOfLoss: 8, price: 5});
+              CREATE (:Ingredient {id: '2004', name: 'Breeze', chanceOfLoss: 2, price: 2});
+
+  - changeSet:
+      id: 8
+      author: leha
+      changes:
+        - sql:
+            dbms: neo4j
+            splitStatements: true
+            stripComments: false
+            sql: |
+              MATCH (earth:Ingredient {id: '1001'}), (water:Ingredient {id: '9101'}), (steam:Ingredient {id: '2001'})
+              CREATE (earth)-[:USED_IN {quantity: 1}]->(steam);
+              CREATE (water)-[:USED_IN {quantity: 1}]->(steam);
+
+  - changeSet:
+      id: 9
+      author: leha
+      changes:
+        - sql:
+            dbms: neo4j
+            splitStatements: true
+            stripComments: false
+            sql: |
+              MATCH (earth:Ingredient {id: '1001'}), (water:Ingredient {id: '9101'}), (mud:Ingredient {id: '2002'})
+              CREATE (earth)-[:USED_IN {quantity: 1}]->(mud);
+              CREATE (water)-[:USED_IN {quantity: 1}]->(mud);
+
+  - changeSet:
+      id: 10
+      author: leha
+      changes:
+        - sql:
+            dbms: neo4j
+            splitStatements: true
+            stripComments: false
+            sql: |
+              MATCH (fire:Ingredient {id: '1002'}), (earth:Ingredient {id: '1001'}), (lava:Ingredient {id: '2003'})
+              CREATE (fire)-[:USED_IN {quantity: 1}]->(lava);
+              CREATE (earth)-[:USED_IN {quantity: 1}]->(lava);
+
+  - changeSet:
+      id: 11
+      author: leha
+      changes:
+        - sql:
+            dbms: neo4j
+            splitStatements: true
+            stripComments: false
+            sql: |
+              MATCH (air:Ingredient {id: '1003'}), (earth:Ingredient {id: '1001'}), (breeze:Ingredient {id: '2004'})
+              CREATE (air)-[:USED_IN {quantity: 1}]->(breeze);
+              CREATE (earth)-[:USED_IN {quantity: 1}]->(breeze);

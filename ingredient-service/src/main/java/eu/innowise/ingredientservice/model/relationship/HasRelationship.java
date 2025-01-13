@@ -15,7 +15,7 @@ public class HasRelationship {
     @RelationshipId
     private Long id;
 
-    private int quantity;
+    private Integer quantity;
 
     @TargetNode
     private Ingredient ingredient;
