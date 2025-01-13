@@ -1,8 +1,8 @@
-package eu.innowise.ingredientservice.testutil.builders;
+package eu.innowise.ingredientservice.testutil;
 
 import eu.innowise.ingredientservice.dto.request.IngredientCreateRequest;
 import eu.innowise.ingredientservice.dto.request.UsedIngredientCreateRequest;
-import eu.innowise.ingredientservice.dto.response.IngredientResponse;
+import eu.innowise.ingredientservice.dto.response.DetailedIngredientResponse;
 import eu.innowise.ingredientservice.dto.response.UsedIngredientResponse;
 import eu.innowise.ingredientservice.model.node.Ingredient;
 import eu.innowise.ingredientservice.model.relationship.UsedInRelationship;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @Data
 @Builder(setterPrefix = "with")
-public class IngredientTestBuilder {
+public class IngredientTestData {
 
     @Builder.Default
     private String id = "3";
@@ -45,8 +45,8 @@ public class IngredientTestBuilder {
                 .toList());
     }
 
-    public IngredientResponse getResponse() {
-        return new IngredientResponse(id, name, chanceOfLoss, price, ingredients.stream()
+    public DetailedIngredientResponse getResponse() {
+        return new DetailedIngredientResponse(id, name, chanceOfLoss, price, ingredients.stream()
                 .map(usedIngredients -> new UsedIngredientResponse(usedIngredients.getId(), usedIngredients.getIngredient().getName(), usedIngredients.getQuantity()))
                 .toList());
     }

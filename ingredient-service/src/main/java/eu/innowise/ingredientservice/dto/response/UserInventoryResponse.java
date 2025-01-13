@@ -2,9 +2,9 @@ package eu.innowise.ingredientservice.dto.response;
 
 import java.util.List;
 
-public record InventoryResponse(
+public record UserInventoryResponse(
 
         String userId,
-        List<IngredientResponse> ingredients
+        List<SummaryIngredientResponse> ingredients
 ) {
 }

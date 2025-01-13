@@ -2,9 +2,9 @@ package eu.innowise.ingredientservice.dto.response;
 
 import java.util.List;
 
-public record IngredientResponse(
+public record DetailedIngredientResponse(
 
-        String id,
+        String ingredientId,
         String name,
         Short chanceOfLoss,
         Integer price,

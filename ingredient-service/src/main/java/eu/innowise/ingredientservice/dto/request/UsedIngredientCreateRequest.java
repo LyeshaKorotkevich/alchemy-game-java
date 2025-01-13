@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Positive;
 public record UsedIngredientCreateRequest(
 
         @NotBlank(message = "Ingredient ID can't be null")
-        String id,
+        String ingredientId,
 
         @Positive(message = "Quantity must be greater than 0")
         int quantity

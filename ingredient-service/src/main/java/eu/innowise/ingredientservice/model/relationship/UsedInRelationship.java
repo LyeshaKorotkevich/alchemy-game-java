@@ -19,7 +19,7 @@ public class UsedInRelationship {
     @RelationshipId
     private String id;
 
-    private int quantity;
+    private Integer quantity;
 
     @TargetNode
     private Ingredient ingredient;

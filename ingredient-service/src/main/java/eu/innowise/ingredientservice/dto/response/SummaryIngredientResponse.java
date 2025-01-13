@@ -1,9 +1,9 @@
 package eu.innowise.ingredientservice.dto.response;
 
-public record UsedIngredientResponse(
+public record SummaryIngredientResponse(
 
         String ingredientId,
         String name,
-        int quantity
+        Integer price
 ) {
 }

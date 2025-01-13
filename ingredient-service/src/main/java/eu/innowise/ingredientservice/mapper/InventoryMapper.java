@@ -1,14 +1,16 @@
 package eu.innowise.ingredientservice.mapper;
 
-import eu.innowise.ingredientservice.dto.response.InventoryResponse;
+import eu.innowise.ingredientservice.dto.response.UserInventoryResponse;
 import eu.innowise.ingredientservice.model.node.Inventory;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(
+        componentModel = MappingConstants.ComponentModel.SPRING,
+        unmappedTargetPolicy = ReportingPolicy.ERROR
+)
 public interface InventoryMapper {
 
-    @Mapping(target = "userId", ignore = true)
-    InventoryResponse toResponse(Inventory inventory);
+    //UserInventoryResponse toResponse(Inventory inventory);
 }

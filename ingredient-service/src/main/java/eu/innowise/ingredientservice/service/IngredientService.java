@@ -2,17 +2,17 @@ package eu.innowise.ingredientservice.service;
 
 import eu.innowise.ingredientservice.dto.request.IngredientCreateRequest;
 import eu.innowise.ingredientservice.dto.request.UsedIngredientCreateRequest;
-import eu.innowise.ingredientservice.dto.response.IngredientResponse;
+import eu.innowise.ingredientservice.dto.response.DetailedIngredientResponse;
 
 import java.util.List;
 
 public interface IngredientService {
 
-    IngredientResponse createIngredient(IngredientCreateRequest ingredientCreateRequest);
+    DetailedIngredientResponse createIngredient(IngredientCreateRequest ingredientCreateRequest);
 
-    IngredientResponse getIngredientById(String id);
+    DetailedIngredientResponse getIngredientById(String id);
 
-    IngredientResponse getIngredientByName(String name);
+    DetailedIngredientResponse getIngredientByName(String name);
 
-    IngredientResponse mixIngredients(List<UsedIngredientCreateRequest> usedIngredientCreateRequests);
+    DetailedIngredientResponse mixIngredients(String userId, List<UsedIngredientCreateRequest> usedIngredientCreateRequests);
 }
